@@ -13,14 +13,14 @@ module.exports = {
         type: Sequelize.STRING(30),
         allowNull: false,
       },
-      tipo:{
-        type: Sequelize.STRING(50),
-        allowNull: false,
-      },
       texto:{
         type: Sequelize.STRING(500),
         allowNull: false,
       },
+      user_id:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+      }
     });
   },
 
