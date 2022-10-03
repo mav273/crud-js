@@ -2,16 +2,16 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const users = sequelize.define(
-    "users",
+  const usuarios = sequelize.define(
+    "usuarios",
     {
       id: {
         field: "id",
         type: Sequelize.INTEGER,
         primaryKey: true,
       },
-      name: {
-        field: "name",
+      nome: {
+        field: "nome",
         type: Sequelize.STRING(50),
         allowNull: false,
       },
@@ -23,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      tableName: "users",
+      tableName: "usuarios",
     }
   );
 
-  users.associate = function (models) {};
-  return users;
+  usuarios.associate = function (models) {};
+  return usuarios;
 };
