@@ -1,4 +1,5 @@
 const txt = require("./sequelize/controllers/textos_controllers.js");
+
 var prompt = require("prompt");
 
 function criarAnotacao(user_id) {
@@ -7,53 +8,63 @@ function criarAnotacao(user_id) {
     try {
       const existe = await txt.verificarTexto(result.Título, user_id);
       if (err) {
-        return onErr(err);
+        return console.error(err);
       }
       if (Number.isInteger(existe)) {
         throw "Título já existe, faça uma anotação com um título novo.";
       } else {
-        txt.createTexto(result.Título, result.Texto, user_id);
+        txt.criarTexto(result.Título, result.Texto, user_id);
       }
     } catch (e) {
       console.error(e.message);
     }
   });
 }
-function deletarAnotacao(user_id) {
-  txt.buscarTitulos(user_id);
 
+function deletarAnotacao(user_id) {
   prompt.start();
   prompt.get(["Título"], function (err, result) {
     if (err) {
-      return onErr(err);
+      return console.error(err);
     }
-    txt.deletarTexto(result.Título);
+    txt.deletarTexto(result.Título, user_id);
   });
 }
 
-function menuAn(user_id) {
-  console.log(
-    "Digite sua opção:\n1 - Criar anotação\n2 - Consultar todas anotações\n3 - Consultar anotação por titulo\n4 - Atualizar anotação\n5 - Deletar anotação"
-  );
-
+function consultarTitulo(user_id) {
   prompt.start();
-  prompt.get(["Opção"], async function (err, result) {
-    try {
-      if (err) {
-        return onErr(err);
-      }
-      if (result.Opção == 1) {
-        criarAnotacao(user_id);
-      } else if (result.Opção == 5) {
-        deletarAnotacao(user_id);
-      }
-    } catch (e) {
-      console.error(e.message);
+  prompt.get(["Título"], function (err, result) {
+    if (err) {
+      return console.error(err);
     }
+    txt.buscarAnotacao(result.Título, user_id);
   });
 }
 
+function alterarAnotacao(user_id) {
+  prompt.start();
+  prompt.get(
+    ["Título_antigo", "Título_novo", "Texto_novo"],
+    function (err, result) {
+      const existe = txt.verificarTexto(result.Título, user_id);
+      if (Number.isInteger(existe)) {
+        throw "Já existe um texto com esse titulo.";
+      }
+      if (err) {
+        return console.error(err);
+      }
+      txt.atualizarAnotacao(
+        result.Título,
+        user_id,
+        result.Título_novo,
+        result.Texto_novo
+      );
+    }
+  );
+}
 module.exports = {
   criarAnotacao,
-  menuAn,
+  deletarAnotacao,
+  consultarTitulo,
+  alterarAnotacao,
 };

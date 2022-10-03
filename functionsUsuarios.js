@@ -1,30 +1,5 @@
 const us = require("./sequelize/controllers/usuarios_controllers.js");
-const funcAn = require("./functionsAnotacoes.js");
 var prompt = require("prompt");
-
-function login() {
-  var schema = {
-    properties: {
-      Username: { required: true },
-      Senha: { hidden: true },
-    },
-  };
-
-  console.log("\nDigite seu usuário e senha:\n");
-  prompt.get(schema, async function (err, result) {
-    try {
-      const id = await us.verificarUsuario(result.Username, result.Senha);
-      if (Number.isInteger(id)) {
-        console.log(`\n\nBem vindo(a) ${result.Username}!\n`);
-        funcAn.menuAn(id);
-      } else {
-        throw "Usuário ou Senha incorretos ou não cadastrados";
-      }
-    } catch (e) {
-      console.error(e.message);
-    }
-  });
-}
 
 function cadastro() {
   var schema = {
@@ -54,25 +29,19 @@ function cadastro() {
   });
 }
 
-function menuUs() {
-  console.log("Login/Cadastro de Usuário\n");
-  console.log("Digite sua opção:\n1 - Cadastro\n2 - Login");
-
+function mudarSenha(user_id) {
   prompt.start();
-  prompt.get(["Escolha"], function (err, result) {
+  prompt.get(["Senha_nova", "Confirmar_senha"], function (err, result) {
     if (err) {
-      return onErr(err);
+      return console.error(err);
     }
-    if (result.Escolha == 1) {
-      cadastro();
-    }
-    if (result.Escolha == 2) {
-      login();
+    if (result.Senha_nova == result.Confirmar_senha) {
+      us.atualizarSenha(user_id, result.Senha_nova);
     }
   });
 }
-menuUs();
+
 module.exports = {
-  login,
   cadastro,
+  mudarSenha,
 };
