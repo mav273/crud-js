@@ -9,6 +9,10 @@ module.exports = {
           nome: "admin",
           senha: "admin",
         },
+        {
+          nome:"teste",
+          senha:"teste"
+        }
       ],
       {}
     );
