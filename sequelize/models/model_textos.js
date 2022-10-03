@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         type: Sequelize.STRING(30),
         allowNull: false,
       },
-      texto:{
+      texto: {
         field: "texto",
         type: Sequelize.STRING(500),
         allowNull: false,
       },
-      user_id:{
+      user_id: {
         field: "user_id",
         type: Sequelize.INTEGER,
         allowNull: false,
