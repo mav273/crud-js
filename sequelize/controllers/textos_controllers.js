@@ -7,7 +7,7 @@ async function verificarTexto(titulo, user_id) {
     });
     return id.dataValues.id;
   } catch (e) {
-    return e.message;
+    console.log("Ocorreu um erro ao buscar a anotação.");
   }
 }
 async function deletarTexto(titulo, user_id) {
@@ -15,7 +15,7 @@ async function deletarTexto(titulo, user_id) {
     await textos.destroy({
       where: {
         titulo: titulo,
-        user_id: user_id
+        user_id: user_id,
       },
     });
     console.log("Anotação deletada com sucesso");
@@ -30,14 +30,34 @@ async function buscarTitulos(user_id) {
     const [results, metadata] = await sequelize.query(
       `SELECT titulo FROM textos WHERE user_id = ${user_id}`
     );
-    for (titulos of results) {
-      console.log("Textos por título do usuário:\n" + titulos.titulo);
-    }
+    console.log(results);
   } catch (e) {
     return e;
   }
 }
-async function createTexto(titulo, texto, user_id) {
+async function buscarTextos(user_id) {
+  try {
+    const [results, metadata] = await sequelize.query(
+      `SELECT titulo,texto FROM textos WHERE user_id = ${user_id}`
+    );
+    console.log(results);
+  } catch (e) {
+    return e;
+  }
+}
+
+async function buscarAnotacao(titulo, user_id) {
+  try {
+    const [results, metadata] = await sequelize.query(
+      `SELECT titulo,texto FROM textos WHERE titulo = ${titulo} and user_id = ${user_id}`
+    );
+    console.log(results);
+  } catch (e) {
+    return e;
+  }
+}
+
+async function criarTexto(titulo, texto, user_id) {
   try {
     await textos.create({
       titulo: titulo,
@@ -51,9 +71,26 @@ async function createTexto(titulo, texto, user_id) {
   }
 }
 
+async function atualizarAnotacao(titulo, user_id, titulo_novo, texto_novo) {
+  try {
+    await sequelize.query(
+      `update "textos"  set titulo ='${titulo_novo}',texto = ${texto_novo} where id = ${user_id} and titulo = ${titulo}`
+    );
+    console.log("Anotação alterada! :)");
+  } catch (e) {
+    console.log(e.message);
+    console.error(
+      "Erro ao atualizar a anotação! Certifique-se que o título pertence a um texto que existe"
+    );
+  }
+}
+
 module.exports = {
-  createTexto,
+  criarTexto,
   deletarTexto,
   verificarTexto,
   buscarTitulos,
+  buscarTextos,
+  buscarAnotacao,
+  atualizarAnotacao,
 };

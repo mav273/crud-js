@@ -1,11 +1,11 @@
-const { usuarios } = require("../models/index.js");
+const { usuarios, sequelize } = require("../models/index.js");
 
 async function verificarUsuario(nome, senha) {
   try {
     const id = await usuarios.findOne({ where: { nome: nome, senha: senha } });
     return id.dataValues.id;
   } catch (e) {
-    return e.message;
+    throw "Erro ao buscar usuario! O username ou senha podem estar incorretos ou você ainda não cadastrou o usuário";
   }
 }
 
@@ -31,10 +31,10 @@ async function criarUsuario(nomeu, senhau) {
   }
 }
 
-async function updatePassword(nome, senha) {
+async function atualizarSenha(user_id, senha) {
   try {
-    const aprovados = await sequelize.query(
-      `update "usuarios" where nome = ${nome} set senha ='${senha}'`
+    await sequelize.query(
+      `update "usuarios"  set senha ='${senha}' where id = ${user_id}`
     );
     console.log("Senha alterada! :)");
   } catch (e) {
@@ -42,8 +42,10 @@ async function updatePassword(nome, senha) {
     console.log("Erro ao atualizar senha!");
   }
 }
+
 module.exports = {
   verificarUsuario,
   verificarUsername,
   criarUsuario,
+  atualizarSenha,
 };
