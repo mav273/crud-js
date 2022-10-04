@@ -1,5 +1,4 @@
 const txt = require("./sequelize/controllers/textos_controllers.js");
-
 var prompt = require("prompt");
 
 function criarAnotacao(user_id) {
@@ -46,19 +45,21 @@ function alterarAnotacao(user_id) {
   prompt.get(
     ["Título_antigo", "Título_novo", "Texto_novo"],
     function (err, result) {
-      const existe = txt.verificarTexto(result.Título, user_id);
-      if (Number.isInteger(existe)) {
-        throw "Já existe um texto com esse titulo.";
-      }
+      const existe = txt.verificarTexto(result.Título_novo, user_id);
       if (err) {
         return console.error(err);
       }
-      txt.atualizarAnotacao(
-        result.Título,
-        user_id,
-        result.Título_novo,
-        result.Texto_novo
-      );
+      if (Number.isInteger(existe)) {
+        throw "Já existe um texto com esse titulo.";
+      }
+      else{
+        txt.atualizarAnotacao(
+            result.Título_antigo,
+            user_id,
+            result.Título_novo,
+            result.Texto_novo
+          );
+      }
     }
   );
 }

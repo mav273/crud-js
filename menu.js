@@ -18,7 +18,6 @@ function menuAn(user_id) {
       }
       if (result.Opção == 1) {
         text.criarAnotacao(user_id);
-        menuAn(user_id);
       } else if (result.Opção == 2) {
         txt.buscarTextos(user_id);
       } else if (result.Opção == 3) {
@@ -48,7 +47,7 @@ function menuUs() {
       return console.error(err);
     }
     if (result.Escolha == 1) {
-      text.cadastro();
+      user.cadastro();
     }
     if (result.Escolha == 2) {
       var credenciais = {

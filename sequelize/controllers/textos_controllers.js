@@ -1,5 +1,6 @@
 const { textos, sequelize } = require("../models/index.js");
 
+//Verifica se o usuário já utilizou o título.
 async function verificarTexto(titulo, user_id) {
   try {
     const id = await textos.findOne({
@@ -7,9 +8,10 @@ async function verificarTexto(titulo, user_id) {
     });
     return id.dataValues.id;
   } catch (e) {
-    console.log("Ocorreu um erro ao buscar a anotação.");
+    console.log("Título não encontrado no sistema.");
   }
 }
+//Deleta o texto com base no título.
 async function deletarTexto(titulo, user_id) {
   try {
     await textos.destroy({
@@ -24,7 +26,7 @@ async function deletarTexto(titulo, user_id) {
     console.log("Erro ao deletar anotação");
   }
 }
-
+//Mostra os títulos de todas as anotações feitas pelo usuário.
 async function buscarTitulos(user_id) {
   try {
     const [results, metadata] = await sequelize.query(
@@ -35,6 +37,7 @@ async function buscarTitulos(user_id) {
     return e;
   }
 }
+//Mostra os título e textos de todas as anotações feitas pelo usuário.
 async function buscarTextos(user_id) {
   try {
     const [results, metadata] = await sequelize.query(
@@ -45,11 +48,11 @@ async function buscarTextos(user_id) {
     return e;
   }
 }
-
+//Busca somente uma anotação de acordo com seu título
 async function buscarAnotacao(titulo, user_id) {
   try {
     const [results, metadata] = await sequelize.query(
-      `SELECT titulo,texto FROM textos WHERE titulo = ${titulo} and user_id = ${user_id}`
+      `SELECT titulo,texto FROM textos WHERE titulo = '${titulo}' and user_id = ${user_id}`
     );
     console.log(results);
   } catch (e) {
@@ -74,7 +77,7 @@ async function criarTexto(titulo, texto, user_id) {
 async function atualizarAnotacao(titulo, user_id, titulo_novo, texto_novo) {
   try {
     await sequelize.query(
-      `update "textos"  set titulo ='${titulo_novo}',texto = ${texto_novo} where id = ${user_id} and titulo = ${titulo}`
+      `update "textos" set titulo ='${titulo_novo}',texto = '${texto_novo}' where user_id = ${user_id} and titulo = '${titulo}'`
     );
     console.log("Anotação alterada! :)");
   } catch (e) {
