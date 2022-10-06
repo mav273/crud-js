@@ -1,7 +1,4 @@
 const us = require("../sequelize/controllers/usuarios_controllers.js");
-var readlineSync = require("readline-sync");
-
-console.log("\nDigite seu usuário e senha:\n");
 
 class user {
   constructor(username, senha) {
@@ -9,12 +6,14 @@ class user {
     this.senha = senha;
   }
   async login() {
-    const id = await us.verificarUsuario(this.username, this.senha);
-    if (!isNaN(id)) {
-      console.log(id);
-    } else {
-      throw "Usuário ou Senha incorretos ou não cadastrados";
-    }
+    try{
+      const id = await us.verificarUsuario(this.username, this.senha);
+      if (!isNaN(id)) {
+        return id;
+      } else {
+        throw "Usuário ou Senha incorretos ou não cadastrados";
+      }
+    } catch(e){ console.error(e) }
   }
   async cadastrar() {
     let ver = await us.verificarUsername(this.username);
@@ -37,10 +36,7 @@ class mudarsenha extends user {
   }
 }
 
-// module.exports = {
-// };
-
-var un = readlineSync.question("Nome de Usuário: ");
-var pwd = readlineSync.question("Senha: ", { hideEchoBack: true });
-
-const u1 = new user(un, pwd).cadastrar();
+module.exports = {
+  user,
+  mudarsenha
+};
