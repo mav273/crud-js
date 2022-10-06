@@ -16,26 +16,29 @@ class user {
     } else {
       throw "Usuário ou Senha incorretos ou não cadastrados";
     }
-  
   }
   async cadastrar(){
     let ver = await us.verificarUsername(this.username)
     if(NaN(ver)){
-      us.criarUsuario(this.username,this.senha)
+     await us.criarUsuario(this.username,this.senha)
     }
   }  
 }
 
 class mudarsenha extends user{
-  constructor(senha_nova) {
+  super()
+  constructor(senha,senha_nova) {
+    super(senha)
     this.senha_nova = senha_nova;
   }
-    //us.atualizarSenha()
+  async atualizar(user_id){
+    await us.atualizarSenha(user_id,this.senha_nova)
+  }
+    
 }
 
-module.exports = {
-
-};
+// module.exports = {
+// };
 
 var un = readlineSync.question('Nome de Usuário: ');
 var pwd    = readlineSync.question('Senha: ', {hideEchoBack: true});
