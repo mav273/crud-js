@@ -15,7 +15,7 @@ async function verificarUsername(nome) {
     const id = await usuarios.findOne({ where: { nome: nome } });
     return id.dataValues.id;
   } catch (e) {
-    console.error(e);
+    return e;
   }
 }
 //Cria o usuário
