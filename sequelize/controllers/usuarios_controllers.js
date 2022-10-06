@@ -6,7 +6,7 @@ async function verificarUsuario(nome, senha) {
     const id = await usuarios.findOne({ where: { nome: nome, senha: senha } });
     return id.dataValues.id;
   } catch (e) {
-    throw "Erro ao buscar usuario! O username ou senha podem estar incorretos ou você ainda não cadastrou o usuário";
+    console.error(e);
   }
 }
 //Verifica se o nome usado ao fazer o cadastro já existe
@@ -15,7 +15,7 @@ async function verificarUsername(nome) {
     const id = await usuarios.findOne({ where: { nome: nome } });
     return id.dataValues.id;
   } catch (e) {
-    return e.message;
+    console.error(e);
   }
 }
 //Cria o usuário
