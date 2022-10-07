@@ -8,11 +8,11 @@ async function verificarTexto(titulo, user_id) {
     });
     return id.dataValues.id;
   } catch (e) {
-    console.log("Título não encontrado no sistema.");
+    return e
   }
 }
 //Deleta o texto com base no título.
-async function deletarTexto(titulo, user_id) {
+async function deletarAnotacao(titulo, user_id) {
   try {
     await textos.destroy({
       where: {
@@ -90,7 +90,7 @@ async function atualizarAnotacao(titulo, user_id, titulo_novo, texto_novo) {
 
 module.exports = {
   criarAnotacao,
-  deletarTexto,
+  deletarAnotacao,
   verificarTexto,
   buscarTitulos,
   buscarTextos,
