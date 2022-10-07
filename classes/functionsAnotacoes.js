@@ -12,7 +12,7 @@ function criarAnotacao(user_id) {
       if (Number.isInteger(existe)) {
         throw "Título já existe, faça uma anotação com um título novo.";
       } else {
-        txt.criarTexto(result.Título, result.Texto, user_id);
+        txt.criarAnotacao(result.Título, result.Texto, user_id);
       }
     } catch (e) {
       console.error(e.message);
@@ -63,6 +63,23 @@ function alterarAnotacao(user_id) {
     }
   );
 }
+
+class anotacao {
+  constructor(titulo,texto) {
+    this.titulo = titulo;
+    this.texto = texto;
+  }
+  async criar(user_id) {
+    try{
+      let verificar = await txt.verificarTexto(this.titulo,user_id)
+      if (isNaN(verificar)){
+        txt.criarAnotacao(this.titulo,this.texto,user_id)
+      }
+    } catch(e) { console.error(e) }
+
+  }
+}
+
 module.exports = {
   criarAnotacao,
   deletarAnotacao,
