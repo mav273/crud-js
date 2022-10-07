@@ -1,7 +1,7 @@
 const { textos, sequelize } = require("../models/index.js");
 
 //Verifica se o usuário já utilizou o título.
-async function verificarTexto(titulo, user_id) {
+async function verificarTitulo(titulo, user_id) {
   try {
     const id = await textos.findOne({
       where: { titulo: titulo, user_id: user_id },
@@ -11,21 +11,7 @@ async function verificarTexto(titulo, user_id) {
     return e
   }
 }
-//Deleta o texto com base no título.
-async function deletarAnotacao(titulo, user_id) {
-  try {
-    await textos.destroy({
-      where: {
-        titulo: titulo,
-        user_id: user_id,
-      },
-    });
-    console.log("Anotação deletada com sucesso");
-  } catch (e) {
-    console.log(e.message);
-    console.log("Erro ao deletar anotação");
-  }
-}
+
 //Mostra os títulos de todas as anotações feitas pelo usuário.
 async function buscarTitulos(user_id) {
   try {
@@ -88,10 +74,26 @@ async function atualizarAnotacao(titulo, user_id, titulo_novo, texto_novo) {
   }
 }
 
+//Deleta o texto com base no título.
+async function deletarAnotacao(titulo, user_id) {
+  try {
+    await textos.destroy({
+      where: {
+        titulo: titulo,
+        user_id: user_id,
+      },
+    });
+    console.log("Anotação deletada com sucesso");
+  } catch (e) {
+    console.log(e.message);
+    console.log("Erro ao deletar anotação");
+  }
+}
+
 module.exports = {
   criarAnotacao,
   deletarAnotacao,
-  verificarTexto,
+  verificarTitulo,
   buscarTitulos,
   buscarTextos,
   buscarAnotacao,
