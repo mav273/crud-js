@@ -20,15 +20,15 @@ function criarAnotacao(user_id) {
   });
 }
 
-function deletarAnotacao(user_id) {
-  prompt.start();
-  prompt.get(["Título"], function (err, result) {
-    if (err) {
-      return console.error(err);
-    }
-    txt.deletarTexto(result.Título, user_id);
-  });
-}
+// function deletarAnotacao(user_id) {
+//   prompt.start();
+//   prompt.get(["Título"], function (err, result) {
+//     if (err) {
+//       return console.error(err);
+//     }
+//     txt.deletarTexto(result.Título, user_id);
+//   });
+// }
 
 function consultarTitulo(user_id) {
   prompt.start();
@@ -75,8 +75,22 @@ class anotacao {
       if (isNaN(verificar)){
         txt.criarAnotacao(this.titulo,this.texto,user_id)
       }
+      else{ throw "Você já possui uma anotação com esse título!" }
     } catch(e) { console.error(e) }
-
+  }
+  async deletar(user_id){
+    try{  
+      await txt.deletarAnotacao(this.titulo,user_id)
+    } catch(e){ console.error(e) }
+  }
+  async atualizar(user_id) {
+    try{
+      let verificar = console.log(await txt.verificarTexto(this.titulo,user_id))
+      if (isNaN(verificar)){
+        txt.criarAnotacao(this.titulo,this.texto,user_id)
+      }
+      else{ throw "Você já possui uma anotação com esse título!" }
+    } catch(e) { console.error(e) }
   }
 }
 
