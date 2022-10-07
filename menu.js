@@ -1,4 +1,4 @@
-const { user,mudarsenha } = require("./classes/classes_usuarios");
+const { usuario,mudarsenha } = require("./classes/classes_usuarios");
 //const us = require("./Sequelize/controllers/usuarios_controllers.js.js");
 const text = require("./classes/functionsAnotacoes.js");
 const txt = require("./sequelize/controllers/textos_controllers.js");
@@ -13,7 +13,7 @@ async function menuUs() {
   if (escolha == 1){
     let username = readlineSync.question('\nUSER: ');
     let senha    = readlineSync.question('SENHA: ', {hideEchoBack: true});
-    const user_id = await new user(username,senha).login()
+    const user_id = await new usuario(username,senha).login()
 
     if (!(isNaN(user_id))){
       menuAn(user_id)
@@ -25,7 +25,7 @@ async function menuUs() {
     let senha_re = readlineSync.question('DIGITE A SENHA DE NOVO: ', {hideEchoBack: true});
 
     if (senha == senha_re){
-     await new user(username,senha).cadastrar()
+     await new usuario(username,senha).cadastrar()
     }
     else{
       throw 'Senhas não correspondem'

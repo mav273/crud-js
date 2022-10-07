@@ -1,6 +1,6 @@
 const us = require("../sequelize/controllers/usuarios_controllers.js");
 
-class user {
+class usuario {
   constructor(username, senha) {
     this.username = username;
     this.senha = senha;
@@ -32,5 +32,5 @@ class user {
 }
 
 module.exports = {
-  user
+  usuario
 };
