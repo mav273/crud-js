@@ -60,7 +60,7 @@ async function buscarAnotacao(titulo, user_id) {
   }
 }
 
-async function criarTexto(titulo, texto, user_id) {
+async function criarAnotacao(titulo, texto, user_id) {
   try {
     await textos.create({
       titulo: titulo,
@@ -89,7 +89,7 @@ async function atualizarAnotacao(titulo, user_id, titulo_novo, texto_novo) {
 }
 
 module.exports = {
-  criarTexto,
+  criarAnotacao,
   deletarTexto,
   verificarTexto,
   buscarTitulos,
