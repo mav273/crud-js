@@ -1,7 +1,7 @@
 const us = require("../sequelize/controllers/usuarios_controllers.js");
 
 class usuario {
-  constructor(username, senha) {
+  constructor({username = null, senha}) {
     this.username = username;
     this.senha = senha;
   }
@@ -26,7 +26,7 @@ class usuario {
   }
   async mudarsenha(user_id) {
     try{
-      await us.atualizarSenha(user_id, this.senha_nova);
+      await us.atualizarSenha(user_id, this.senha);
     } catch(e){ console.error(e) }
   }
 }
