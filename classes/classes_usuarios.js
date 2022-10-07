@@ -24,19 +24,13 @@ class user {
       throw "Usuário já existe";
     }
   }
-}
-
-class mudarsenha extends user {
-  constructor(senha, senha_nova) {
-    super(senha);
-    this.senha_nova = senha_nova;
-  }
-  async atualizar(user_id) {
-    await us.atualizarSenha(user_id, this.senha_nova);
+  async mudarsenha(user_id) {
+    try{
+      await us.atualizarSenha(user_id, this.senha_nova);
+    } catch(e){ console.error(e) }
   }
 }
 
 module.exports = {
-  user,
-  mudarsenha
+  user
 };
