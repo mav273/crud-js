@@ -13,7 +13,11 @@ async function verificarUsuario(nome, senha) {
 async function verificarUsername(nome) {
   try {
     const id = await usuarios.findOne({ where: { nome: nome } });
-    return id.dataValues.id;
+    if (id == null) {
+      return null;
+    } else {
+      return id.dataValues.id;
+    }
   } catch (e) {
     return e;
   }
@@ -43,7 +47,6 @@ async function atualizarSenha(user_id, senha) {
     console.log("Erro ao atualizar senha!");
   }
 }
-
 module.exports = {
   verificarUsuario,
   verificarUsername,
