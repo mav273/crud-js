@@ -8,7 +8,7 @@ async function verificarTitulo(titulo, user_id) {
     });
     return id.dataValues.id;
   } catch (e) {
-    return e
+    return e;
   }
 }
 
@@ -24,7 +24,7 @@ async function buscarTitulos(user_id) {
   }
 }
 //Mostra os título e textos de todas as anotações feitas pelo usuário.
-async function buscarTextos(user_id) {
+async function buscarAnotacoes(user_id) {
   try {
     const [results, metadata] = await sequelize.query(
       `SELECT titulo,texto FROM textos WHERE user_id = ${user_id}`
@@ -95,7 +95,7 @@ module.exports = {
   deletarAnotacao,
   verificarTitulo,
   buscarTitulos,
-  buscarTextos,
+  buscarAnotacoes,
   buscarAnotacao,
   atualizarAnotacao,
 };
